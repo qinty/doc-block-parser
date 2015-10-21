@@ -1,0 +1,17 @@
+{
+  "name": "avangate/doc-block-parser",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^5.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "DocBlockParser\\": "src/",
+      "DocBlockParser\\tests\\": "tests/"
+    }
+  }
+}
