@@ -36,11 +36,11 @@ class SampleClassWithDocBlock
         $this->attributes = $attributes;
     }
 
-    public function __get($name)
-    {
-        if (!array_key_exists($name, $this->attributes)) {
-            return null;
-        }
-        return $this->attributes[$name];
-    }
+//    public function __get($name)
+//    {
+//        if (!array_key_exists($name, $this->attributes)) {
+//            return null;
+//        }
+//        return $this->attributes[$name];
+//    }
 }

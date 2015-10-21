@@ -70,6 +70,6 @@ class Property
      */
     public function isBasicType()
     {
-        return in_array($this->type, self::$basicTypes);
+        return in_array($this->type, self::$basicTypes, true);
     }
 }
