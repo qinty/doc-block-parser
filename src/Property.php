@@ -8,20 +8,14 @@ namespace DocBlockParser;
  */
 class Property
 {
-    /**
-     * @var string
-     */
-    private $type;
+    /** @var string */
+    private $type = '';
 
-    /**
-     * @var boolean
-     */
-    private $isArray;
+    /** @var boolean */
+    private $isArray = false;
 
-    /**
-     * @var array
-     */
-    private $basicTypes = [
+    /** @var array */
+    private static $basicTypes = [
         'boolean',
         'integer',
         'float',
@@ -31,21 +25,28 @@ class Property
         'resource',
         'mixed',
         'number',
-        'callback'
+        'callback',
+        'Closure',
     ];
 
     /**
-     * @param string $type
-     * @param string $brackets
+     * @param            $type
+     * @param bool|false $isArray
+     *
      * @return Property
      */
-    public static function build($type, $brackets = '')
+    public static function build($type, $isArray = false)
     {
-        $property = new Property();
-        $property->type = $type;
-        $property->isArray = (bool)$brackets;
+        if (!$isArray && $type === 'array') {
+            $type = 'mixed';
+            $isArray = true;
+        }
 
-        return $property;
+        $response = new self();
+        $response->type = $type;
+        $response->isArray = (bool)$isArray;
+
+        return $response;
     }
 
     /**
@@ -69,6 +70,6 @@ class Property
      */
     public function isBasicType()
     {
-        return in_array($this->type, $this->basicTypes);
+        return in_array($this->type, self::$basicTypes);
     }
 }

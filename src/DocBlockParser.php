@@ -4,46 +4,55 @@ namespace DocBlockParser;
 
 /**
  * Class DocBlockParser
- * @package AvangateBindings\Support
+ * @package DocBlockParser
  */
 class DocBlockParser
 {
+    const REGEX_PROPERTY_EXTRACT = '/^\@property\s([\\\|\w\d_]+)([\[|\]]*)\s(\w+)/';
+
     /**
      * @param $object
      * @return Property[]
      */
     public static function getProperties($object)
     {
-        $selfObjectReflection = new \ReflectionClass($object);
-        $docBlockParts = explode(PHP_EOL, self::filterDocBlock($selfObjectReflection->getDocComment()));
-        $properties = [];
-        foreach ($docBlockParts as $line) {
-            $line = trim($line);
-            preg_match('/^\@property\s([\\\|\w\d_]+)([\[|\]]*)\s(\w+)/', $line, $matches);
+        $response = [];
+
+        $oReflection = new \ReflectionClass($object);
+        $namespaceUse = NamespaceUse::fromReflectionClass($oReflection);
+
+        foreach (self::getDocBlockLines($oReflection) as $line) {
+            preg_match(self::REGEX_PROPERTY_EXTRACT, $line, $matches);
+
             if ($matches) {
-                $properties[$matches[3]] = Property::build($matches[1], $matches[2]);
+                $type = $namespaceUse->getFullClassName($matches[1]);
+                $response[$matches[3]] = Property::build($type, ($matches[2] === '[]'));
             }
         }
-        return $properties;
+
+        return $response;
     }
 
     /**
-     * @param $rawDocBlock
-     * @return string
+     * @param \ReflectionClass $object
+     * @return array
      */
-    private static function filterDocBlock($rawDocBlock)
+    protected static function getDocBlockLines(\ReflectionClass $oReflection)
     {
         $response = [];
-        $lines = explode(PHP_EOL, $rawDocBlock);
+        $lines = explode(PHP_EOL, $oReflection->getDocComment());
+
         foreach ($lines as $line) {
             $line = trim($line);
+
             if (!in_array($line, ['//', '/*', '/**', '*/', '*'], false)) {
-                while (substr($line, 0, 1) === "*") {
+                while (substr($line, 0, 1) === '*') {
                     $line = substr($line, 1);
                 }
-                $response[] = $line;
+                $response[] = trim($line);
             }
         }
-        return implode(PHP_EOL, $response);
+
+        return $response;
     }
 }

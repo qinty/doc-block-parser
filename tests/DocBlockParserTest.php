@@ -17,11 +17,9 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
     public function testDocBlockIsReadCorrectlyOnDocumentedClass()
     {
         $objectWithDocBlock = new SampleClassWithDocBlock();
-        $objectReflection = new \ReflectionClass($objectWithDocBlock);
-        $declaredProperties = $objectReflection->getProperties();
         $documentedProperties = DocBlockParser::getProperties($objectWithDocBlock);
 
-        static::assertEquals(count($declaredProperties), count($documentedProperties));
+        static::assertEquals(9, count($documentedProperties));
 
         $arrays = 0;
         foreach ($documentedProperties as $documentedProperty){
@@ -29,9 +27,8 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
                 $arrays++;
             }
         }
-        static::assertEquals(1, $arrays);
+        static::assertEquals(2, $arrays);
     }
-
 
     /**
      * doc block is read correctly on undocumented class

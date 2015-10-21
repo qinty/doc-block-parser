@@ -1,0 +1,16 @@
+language: php
+php:
+  - "5.4"
+
+before_script:
+  - composer install --dev --no-interaction
+  - mkdir -p build/logs
+
+script:
+  - phpunit -v -c phpunit.xml --coverage-clover build/logs/clover.xml
+
+after_script:
+  -  CODECLIMATE_REPO_TOKEN=0fb3daa18abce83ebb6d6f2b85710c6f10509768992406d4c3f4ba6b8d78e4a8 ./vendor/bin/test-reporter
+
+notifications:
+  email: false
