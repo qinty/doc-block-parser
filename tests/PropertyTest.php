@@ -6,15 +6,14 @@ use DocBlockParser\Property;
 class PropertyTest extends \PHPUnit_Framework_Testcase
 {
     /**
-     * calling build with non empty brackets parameter sets isArray to true
+     * calling build with true as second parameter sets isArray to true
      */
-    public function testCallingBuildWithNonEmptyBracketsParameterSetsIsArrayToTrue()
+    public function testCallingBuildWithTrueAsSecondParameterSetsIsArrayToTrue()
     {
         $type = 'string';
-        $property = Property::build($type, '[]');
+        $property = Property::build($type, true);
         static::assertTrue($property->isArray());
     }
-
 
     /**
      * calling build with custom type sets the type property
