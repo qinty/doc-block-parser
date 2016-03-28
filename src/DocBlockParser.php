@@ -8,7 +8,7 @@ namespace DocBlockParser;
  */
 class DocBlockParser
 {
-    const REGEX_PROPERTY_EXTRACT = '/^\@property\s([\\\|\w\d_]+)([\[|\]]*)\s(\w+)/';
+    const REGEX_PROPERTY_EXTRACT = '/^\@property\s([\\\|\w\d_]+)([\[|\]]*)\s+(\w+)/';
 
     /**
      * @param $object
@@ -41,6 +41,11 @@ class DocBlockParser
     {
         $response = [];
         $lines = explode(PHP_EOL, $oReflection->getDocComment());
+	
+	//fallback for Windows machines
+	if (strlen(PHP_EOL) == 2) {
+            $lines = explode("\n", $oReflection->getDocComment());
+	}
 
         foreach ($lines as $line) {
             $line = trim($line);
