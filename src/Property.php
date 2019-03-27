@@ -35,15 +35,15 @@ class Property
      *
      * @return Property
      */
-    public static function build($type, $isArray = false)
+    public static function build($type, $isArray = false): Property
     {
         if (!$isArray && $type === 'array') {
-            $type = 'mixed';
+            $type    = 'mixed';
             $isArray = true;
         }
 
-        $response = new self();
-        $response->type = $type;
+        $response          = new self();
+        $response->type    = $type;
         $response->isArray = (bool)$isArray;
 
         return $response;
@@ -52,7 +52,7 @@ class Property
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -60,7 +60,7 @@ class Property
     /**
      * @return boolean
      */
-    public function isArray()
+    public function isArray(): bool
     {
         return $this->isArray;
     }
@@ -68,8 +68,8 @@ class Property
     /**
      * @return bool
      */
-    public function isBasicType()
+    public function isBasicType(): bool
     {
-        return in_array($this->type, self::$basicTypes, true);
+        return \in_array($this->type, self::$basicTypes, true);
     }
 }

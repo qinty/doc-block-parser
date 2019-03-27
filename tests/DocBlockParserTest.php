@@ -1,4 +1,5 @@
 <?php
+
 namespace DocBlockParser\tests;
 
 use DocBlockParser\DocBlockParser;
@@ -10,7 +11,7 @@ use DocBlockParser\tests\support\SampleClassWithoutDocBlock;
  * Class DocBlockParserTest
  * @package DocBlockParser\tests
  */
-class DocBlockParserTest extends \PHPUnit_Framework_TestCase
+class DocBlockParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * When passing a class with no properties then return empty array.
@@ -18,7 +19,7 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
     public function testWhenPassingAClassWithNoPropertiesThenReturnEmptyArray()
     {
         $underTest = new SampleClassWithoutDocBlock();
-        $response = DocBlockParser::getProperties($underTest);
+        $response  = DocBlockParser::getProperties($underTest);
 
         static::assertInternalType('array', $response);
         static::assertEmpty($response);
@@ -30,7 +31,7 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
     public function testWhenPassingAClassWithPropertiesThenReturnSameNumberOfParameters()
     {
         $underTest = new SampleClassWithDocBlock();
-        $response = DocBlockParser::getProperties($underTest);
+        $response  = DocBlockParser::getProperties($underTest);
 
         static::assertInternalType('array', $response);
         static::assertEquals(9, count(array_keys($response)));
@@ -141,7 +142,7 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testDocBlockIsReadCorrectlyOnDocumentedClass()
     {
-        $objectWithDocBlock = new SampleClassWithDocBlock();
+        $objectWithDocBlock   = new SampleClassWithDocBlock();
         $documentedProperties = DocBlockParser::getProperties($objectWithDocBlock);
 
         static::assertEquals(9, count($documentedProperties));
@@ -160,9 +161,9 @@ class DocBlockParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testDocBlockIsReadCorrectlyOnUndocumentedClass()
     {
-        $objectWithDocBlock = new SampleClassWithoutDocBlock();
-        $objectReflection = new \ReflectionClass($objectWithDocBlock);
-        $declaredProperties = $objectReflection->getProperties();
+        $objectWithDocBlock   = new SampleClassWithoutDocBlock();
+        $objectReflection     = new \ReflectionClass($objectWithDocBlock);
+        $declaredProperties   = $objectReflection->getProperties();
         $documentedProperties = DocBlockParser::getProperties($objectWithDocBlock);
 
         static::assertNotEquals($declaredProperties, $documentedProperties);

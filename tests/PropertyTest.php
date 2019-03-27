@@ -1,16 +1,17 @@
 <?php
+
 namespace DocBlockParser\tests;
 
 use DocBlockParser\Property;
 
-class PropertyTest extends \PHPUnit_Framework_Testcase
+class PropertyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * calling build with true as second parameter sets isArray to true
      */
     public function testCallingBuildWithTrueAsSecondParameterSetsIsArrayToTrue()
     {
-        $type = 'string';
+        $type     = 'string';
         $property = Property::build($type, true);
         static::assertTrue($property->isArray());
     }
@@ -20,7 +21,7 @@ class PropertyTest extends \PHPUnit_Framework_Testcase
      */
     public function testCallingBuildWithCustomTypeSetsTheTypeProperty()
     {
-        $type = 'CustomType';
+        $type     = 'CustomType';
         $property = Property::build($type);
         static::assertSame($type, $property->getType());
         static::assertFalse($property->isArray());
